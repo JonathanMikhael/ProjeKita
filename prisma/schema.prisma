@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Board {
+  id            String   @id @default(uuid())
+  orgId         String
+  title         String
+  imageId       String
+  imageThumbUrl String   @db.Text
+  imageFullUrl  String   @db.Text
+  imageUserName String   @db.Text
+  imageLinkHTML String   @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lists         List[]
+}
+
+model List {
+  id           String   @id @default(uuid())
+  title        String
+  order        Int
+  boardId      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  cards        Card[]
+  board        Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  @@index([boardId])
+}
+
+model Card {
+  id           String    @id @default(uuid())
+  title        String
+  order        Int
+  description  String?   @db.Text
+
+  deadline     DateTime  //this
+
+  listId       String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  subCards     SubCard[]
+
+  list         List      @relation(fields: [listId], references: [id], onDelete: Cascade)
+
+  @@index([listId])
+}
+
+model SubCard {
+  id          String   @id @default(uuid())
+  title       String
+  order       Int
+  level       String
+  status      String
+  cardId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  card        Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([cardId])
+}
