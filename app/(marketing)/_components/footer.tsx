@@ -8,11 +8,11 @@ export const Footer = () =>{
             <div className="flex items-center justify-between w-full mx-auto md:max-w-screen-2xl">
                 <Logo/>
                 <div className="flex items-center justify-between w-full space-x-4 text-slate-100 md:block md:w-auto">
-                    <Button size="sm" variant="ghost">
-                       Privacy Policy
+                    <Button  className="font-bold" size="sm" variant="ghost">
+                        <Link href="https://www.dropshipaja.com/">Dropshipaja.com</Link>
                     </Button>
-                    <Button size="sm" variant="ghost">
-                        Terms of Service
+                    <Button className="font-bold" size="sm" variant="ghost">
+                        <Link href="https://summerscentofficial.id/">Summerscent.id</Link>
                     </Button>
                 </div>
             </div>

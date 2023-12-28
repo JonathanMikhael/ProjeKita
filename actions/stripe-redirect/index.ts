@@ -53,7 +53,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
                                 name: "ProjeKita Pro",
                                 description: "Unlimited boards for your organization"
                             },
-                            unit_amount: 2000,
+                            unit_amount: 20000000,
                             recurring: {
                                 interval:"month"
                             },
