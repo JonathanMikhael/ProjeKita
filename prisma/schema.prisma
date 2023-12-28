@@ -41,7 +41,7 @@ model Card {
   order        Int
   description  String?   @db.Text
 
-  deadline     DateTime  //this
+  deadline     String?  //this
 
   listId       String
   createdAt    DateTime  @default(now())
@@ -58,12 +58,55 @@ model SubCard {
   id          String   @id @default(uuid())
   title       String
   order       Int
-  level       String
-  status      String
+  priority    String?
   cardId      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   card        Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
 
   @@index([cardId])
+}
+
+enum ACTIONS {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+enum ENTITY_TYPE{
+  BOARD
+  LIST
+  CARD
+}
+model AuditLog {
+  id          String @id @default(uuid())
+  orgId       String
+  action      ACTIONS
+  entityId    String
+  entityType  ENTITY_TYPE
+  entityTitle String
+  userId      String
+  userImage   String @db.Text
+  userName    String @db.Text
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model OrgLimit{
+  id          String @id @default(uuid())
+  orgId       String @unique
+  count       Int @default(0)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model orgSubscription{
+  id                      String @id @default(uuid())
+  orgId                   String @unique
+  stripeCustomerId        String? @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId    String? @unique @map(name: "stripe_subscription_id")
+  stripePriceId           String? @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd  DateTime? @map(name: "stripe_current_period_end")
 }

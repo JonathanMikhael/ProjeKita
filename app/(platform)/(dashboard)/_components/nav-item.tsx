@@ -111,12 +111,12 @@ export const NavItem = ({
 };
 
 NavItem.Skeleton = function SkeletonNavItem() {
-    return (
-      <div className="flex items-center gap-x-2">
-        <div className="relative w-10 h-10 shrink-0">
-          <Skeleton className="absolute w-full h-full" />
-        </div>
-        <Skeleton className="w-full h-10" />
+  return (
+    <div className="flex items-center gap-x-2">
+      <div className="relative w-10 h-10 shrink-0">
+        <Skeleton className="absolute w-full h-full" />
       </div>
-    );
-  };
+      <Skeleton className="w-full h-10" />
+    </div>
+  );
+};
