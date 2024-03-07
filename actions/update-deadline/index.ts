@@ -4,12 +4,10 @@ import { createSafeAction } from "@/lib/create-safe-action";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { DeleteBoard } from "./schema";
+import { UpdateCard } from "./schema";
 import { InputType, ReturnType } from "./types";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTIONS, ENTITY_TYPE } from "@prisma/client";
-
 
 const handler = async (data: InputType): Promise<ReturnType> => {
     const { userId, orgId } = auth();
@@ -20,32 +18,39 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         };
     }
 
-    const { id } = data;
-    let board;
+    const { id, boardId, ...values } = data;
+    let card;
 
     try{
-        board = await db.board.delete({
+        card = await db.card.update({
             where: {
                 id,
-                orgId,
+                list:{
+                    board:{
+                        orgId,
+                    }
+                },
+            },
+            data: {
+                ...values,
             },
         });
 
         await createAuditLog({
-            entityId: board.id,
-            entityTitle: board.title,
-            entityType: ENTITY_TYPE.BOARD,
-            action: ACTIONS.DELETE,
+            entityId: card.id,
+            entityTitle: card.title,
+            entityType: ENTITY_TYPE.CARD,
+            action: ACTIONS.UPDATE,
         });
 
     } catch (error){
         return{
-            error: "Failed to delete."
+            error: "Failed to update."
         }
     }
 
-    revalidatePath(`/organization/${orgId}`);
-    redirect(`/organization/${orgId}`);
+    revalidatePath(`/board/${id}`);
+    return { data: card };
 };
 
-export const deleteBoard = createSafeAction(DeleteBoard, handler);
+export const updateCard = createSafeAction(UpdateCard, handler);

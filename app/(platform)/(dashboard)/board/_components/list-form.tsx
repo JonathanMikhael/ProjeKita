@@ -85,7 +85,7 @@ export const ListForm = () => {
             name="boardId"
           />
           <div className="flex items-center gap-x-1">
-            <FormSubmit>
+            <FormSubmit className="bg-blue-600 rounded hover:bg-blue-500">
               Add list
             </FormSubmit>
             <Button 

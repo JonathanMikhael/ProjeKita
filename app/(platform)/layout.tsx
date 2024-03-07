@@ -12,9 +12,13 @@ const PlatformLayout = ({
     return(
         <ClerkProvider>
             <QueryProvider>
-                <Toaster />
-                <ModalProvider />
-                {children}
+                <html lang="en">
+                    <body>
+                    <Toaster />
+                    <ModalProvider />
+                    {children}
+                    </body>
+                </html>
             </QueryProvider>
         </ClerkProvider>
     );

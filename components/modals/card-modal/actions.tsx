@@ -3,13 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CardwithList } from "@/types";
-import { Clock, Copy, Trash } from "lucide-react";
+import { Calendar, Clock, Copy, Trash } from "lucide-react";
 import { useAction } from "@/hooks/use-action";
 import { deleteCard } from "@/actions/delete-card";
 import { copyCard } from "@/actions/copy-card";
 import { useParams } from "next/navigation";
 import { useCardModal } from "@/hooks/use-card-modal";
 import { toast } from "sonner";
+import { FormPopoverDate } from "@/components/form/form-popoverdate";
 
 interface ActionsProps{
     data: CardwithList;
@@ -40,7 +41,18 @@ export const Actions = ({
         onError(error) {
             toast.error(error);
         },
-    })
+    });
+
+    // const { execute: executeSetDeadline, isLoading: isLoadingDeadline } = useAction(deadlineCard, {
+    //     onSuccess: (data) => {
+    //         toast.success(`Card "${data.title}" Deleted`);
+    //         cardModal.onClose();
+    //     },
+    //     onError(error) {
+    //         toast.error(error);
+    //     },
+    // })
+    
 
     const onCopy = () => {
         const boardId = params.boardId as string;
@@ -59,6 +71,8 @@ export const Actions = ({
             boardId,
         });
     };
+
+    // const set
 
     return(
         <div className="mt-2 space-y-2">
@@ -85,14 +99,16 @@ export const Actions = ({
                 <Trash className="w-4 h-4 mr-2"/>
                 Delete
             </Button>
-            <Button
-                className="justify-start w-full"
-                variant="gray"
-                size="inline"
-            >
-                <Clock className="w-4 h-4 mr-2"/>
-                Deadline
-            </Button>
+            <FormPopoverDate align="start" side="right" sideOffset={10}>
+                <Button
+                    className="justify-start w-full"
+                    variant="gray"
+                    size="inline"
+                >
+                    <Calendar className="w-4 h-4 mr-2"/>
+                    Deadline
+                </Button>
+            </FormPopoverDate>
         </div>
     );
 };

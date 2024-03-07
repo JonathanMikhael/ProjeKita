@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import Image from "next/image"
 import{
     Activity,
-    CreditCard,
     Layout,
     Settings,
 } from "lucide-react";
@@ -51,11 +50,6 @@ export const NavItem = ({
             label: "Settings",
             icon: <Settings className="w-4 h-4 mr-2" />,
             href: `/organization/${organization.id}/settings`,
-        },
-        {
-            label: "Billing",
-            icon: <CreditCard className="w-4 h-4 mr-2" />,
-            href: `/organization/${organization.id}/billing`,
         },
     ];
 

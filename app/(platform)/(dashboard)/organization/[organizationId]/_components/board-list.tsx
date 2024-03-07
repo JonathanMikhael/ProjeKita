@@ -1,8 +1,6 @@
 import { FormPopover } from "@/components/form/form-popover";
-import { Hint } from "@/components/hint"
-import { HelpCircle, User2 } from "lucide-react"
-import { MAX_FREE_BOARDS } from "@/constants/boards";
-import { getAvailableCount } from "@/lib/org-limit";
+import { Hint } from "@/components/hint";
+import { HelpCircle, User2 } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
@@ -10,8 +8,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { checkSubscription } from "@/lib/subscription";
-
 
 export const BoardList = async () => {
     const { orgId } = auth();
@@ -20,14 +16,12 @@ export const BoardList = async () => {
         return redirect("/select-org");
     }
 
+
     const boards = await db.board.findMany({
         where:{
             orgId,
         }
     });
-
-    const availableCount = await getAvailableCount();
-    const isPro = await checkSubscription();
     
     return(
         <div className="space-y-4">
@@ -53,14 +47,10 @@ export const BoardList = async () => {
                         className="relative flex flex-col items-center justify-center w-full h-full transition rounded-sm aspect-video bg-muted gap-y-1 hover:opacity-75"
                     >
                         <p className="text-sm">Create new board</p>
-                        <span className="text-xs">
-                            {isPro ? "Unlimited Boards" : `${MAX_FREE_BOARDS - availableCount} boards remaining`}
-                        </span>
                         <Hint
                             sideOffset={40}
                             description={`
-                                Free Workspaces can have up to 5 open boards. For unlimited
-                                boards upgrade this workspace.
+                                Create new boards by clicking this section.
                             `}
                         >
                             <HelpCircle

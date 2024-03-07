@@ -88,7 +88,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(({
           value={listId}
         />
         <div className="flex items-center gap-x-1">
-          <FormSubmit>
+          <FormSubmit className="bg-blue-600 rounded hover:bg-blue-500">
             Add card
           </FormSubmit>
           <Button onClick={disableEditing} size="sm" variant="ghost">
